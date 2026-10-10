@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIHARA JWELLS - Fine Luxury Jewellery</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        emeraldTheme: {
+                            DEFAULT: '#0D3826',
+                            dark: '#071F15',
+                            light: '#144F37',
+                            card: '#0A2E20',
+                            accent: '#1B5E43'
+                        },
+                        goldTheme: {
+                            DEFAULT: '#D4AF37',
+                            light: '#E6C280',
+                            bright: '#F3E0AA',
+                            dark: '#AA8C2C',
+                            gradientStart: '#F3E0AA',
+                            gradientEnd: '#B8972E'
+                        }
+                    },
+                    fontFamily: {
+                        cinzel: ['Cinzel', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #F9F8F6;
+            background-image: radial-gradient(#E2DDD5 0.75px, transparent 0.75px), radial-gradient(#E2DDD5 0.75px, #F9F8F6 0.75px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+        }
+        .gold-button {
+            background: linear-gradient(135deg, #E6C280 0%, #D4AF37 50%, #B8972E 100%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #071F15;
+        }
+        .gold-button:hover {
+            background: linear-gradient(135deg, #F3E0AA 0%, #E6C280 50%, #D4AF37 100%);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+            transform: translateY(-1px);
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #071F15;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D4AF37;
+            border-radius: 3px;
+        }
+        @keyframes pulse-subtle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(1.02); }
+        }
+        .pulse-gold {
+            animation: pulse-subtle 2s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="text-gray-900 min-h-screen flex flex-col selection:bg-goldTheme selection:text-emeraldTheme-dark">
+
+    <header class="sticky top-0 z-40 bg-emeraldTheme border-b border-goldTheme/30 shadow-2xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Mandala Brand Logo -->
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="filterCategory('All')">
+                <div class="w-11 h-11 rounded-full border-2 border-goldTheme flex items-center justify-center bg-emeraldTheme-dark shadow-inner">
+                    <svg class="w-7 h-7 text-goldTheme" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M12 2L14.5 7.5L20 8L16 12L17.5 17.5L12 15L6.5 17.5L8 12L4 8L9.5 7.5L12 2Z" fill="#D4AF37" fill-opacity="0.3" stroke="#D4AF37"/>
+                        <circle cx="12" cy="12" r="3" fill="#D4AF37"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="font-cinzel font-black text-xl sm:text-2xl tracking-[0.18em] text-goldTheme">NIHARA JWELLS</h1>
+                    <p class="text-[9px] tracking-[0.3em] text-gray-300 uppercase font-semibold">Haute Joaillerie & Royal Jewels</p>
+                </div>
+            </div>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-7 font-medium text-xs tracking-wider uppercase">
+                <button onclick="filterCategory('All')" class="text-goldTheme hover:text-goldTheme-bright transition">Collections</button>
+                <button onclick="filterBestsellers()" class="text-gray-200 hover:text-goldTheme transition">Bestsellers</button>
+                <button onclick="filterCategory('Bridal Sets')" class="text-gray-200 hover:text-goldTheme transition">Traditional</button>
+                <button onclick="filterCategory('Rings')" class="text-gray-200 hover:text-goldTheme transition">Modern</button>
+                <button onclick="openVirtualTryOn()" class="text-goldTheme bg-emeraldTheme-dark/80 px-3.5 py-1.5 rounded-full border border-goldTheme/40 hover:bg-goldTheme hover:text-emeraldTheme-dark transition flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Virtual Try-On
+                </button>
+            </nav>
+
+            <!-- Header Action Icons -->
+            <div class="flex items-center space-x-4 sm:space-x-5">
+                <button onclick="openSearchModal()" class="text-gray-200 hover:text-goldTheme transition relative p-2" title="Search Jewellery">
+                    <i class="fa-solid fa-magnifying-glass text-lg"></i>
+                </button>
+                <button onclick="resetDataToDefault()" class="text-gray-200 hover:text-goldTheme transition relative p-2" title="Reset Demo Data">
+                    <i class="fa-solid fa-rotate text-lg"></i>
+                </button>
+                <button onclick="openWishlistModal()" class="text-gray-200 hover:text-goldTheme transition relative p-2" title="My Wishlist">
+                    <i class="fa-regular fa-heart text-lg"></i>
+                    <span id="wishlistBadge" class="absolute top-0 right-0 bg-goldTheme text-emeraldTheme-dark font-black text-[10px] w-4 h-4 rounded-full flex items-center justify-center hidden">0</span>
+                </button>
+                
+                <!-- Cart Icon Button -->
+                <button onclick="toggleCartDrawer()" class="text-gray-200 hover:text-goldTheme transition relative p-2 bg-emeraldTheme-dark/60 rounded-full border border-goldTheme/30" title="Shopping Bag">
+                    <i class="fa-solid fa-bag-shopping text-lg text-goldTheme"></i>
+                    <span id="cartBadge" class="absolute -top-1 -right-1 bg-goldTheme text-emeraldTheme-dark font-bold text-[10px] w-5 h-5 rounded-full flex items-center justify-center border border-emeraldTheme">0</span>
+                </button>
+
+                <button onclick="openAdminModal()" class="hidden sm:flex items-center gap-2 bg-goldTheme text-emeraldTheme-dark px-3 py-1.5 rounded-full text-xs font-bold hover:bg-goldTheme-bright transition shadow-md">
+                    <i class="fa-solid fa-plus-circle"></i> Add / Manage
+                </button>
+
+                <button onclick="toggleMobileMenu()" class="md:hidden text-gray-200 hover:text-goldTheme p-1">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-emeraldTheme-dark border-t border-goldTheme/20 px-6 py-4 space-y-3">
+            <button onclick="filterCategory('All'); toggleMobileMenu();" class="block w-full text-left py-1 text-goldTheme font-semibold text-sm">All Collections</button>
+            <button onclick="filterBestsellers(); toggleMobileMenu();" class="block w-full text-left py-1 text-gray-200 text-sm">Bestsellers</button>
+            <button onclick="filterCategory('Bridal Sets'); toggleMobileMenu();" class="block w-full text-left py-1 text-gray-200 text-sm">Bridal Sets</button>
+            <button onclick="filterCategory('Rings'); toggleMobileMenu();" class="block w-full text-left py-1 text-gray-200 text-sm">Diamond Rings</button>
+            <button onclick="openVirtualTryOn(); toggleMobileMenu();" class="block w-full text-left py-1 text-goldTheme font-semibold text-sm flex items-center gap-2">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Virtual Try-On Studio
+            </button>
+            <button onclick="openAdminModal(); toggleMobileMenu();" class="block w-full text-left py-1 text-goldTheme font-bold text-sm">
+                <i class="fa-solid fa-plus-circle mr-1"></i> Admin / Add Product
+            </button>
+        </div>
+    </header>
+
+    <div class="bg-gradient-to-r from-emeraldTheme-dark via-emeraldTheme to-emeraldTheme-dark border-b border-goldTheme/20 py-2 px-4 text-center text-xs text-goldTheme/90 font-medium tracking-wide shadow-inner">
+        ✨ Insured Express Delivery Worldwide | Hallmarked 22K Gold & BIS Certified Diamonds | Promo Codes: <span class="font-bold underline cursor-pointer hover:text-white" onclick="quickApplyCoupon('LUXURY10')">LUXURY10</span> (10% OFF), <span class="font-bold underline cursor-pointer hover:text-white" onclick="quickApplyCoupon('ARENA15')">ARENA15</span> (15% OFF)
+    </div>
+
+    <main class="flex-grow max-w-[1500px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Storefront & Product Grid Section -->
+        <div class="lg:col-span-7 xl:col-span-8 space-y-6">
+            
+            <!-- Category Filter Chips -->
+            <div class="flex items-center gap-2.5 overflow-x-auto pb-2 scrollbar-none">
+                <button onclick="filterCategory('All')" id="chip-All" class="category-chip px-5 py-2 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition bg-emeraldTheme text-goldTheme border border-goldTheme shadow-md">All Pieces</button>
+                <button onclick="filterCategory('Bridal Sets')" id="chip-Bridal Sets" class="category-chip px-5 py-2 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition bg-white hover:bg-emeraldTheme hover:text-goldTheme text-gray-800 border border-gray-300">Bridal Sets</button>
+                <button onclick="filterCategory('Rings')" id="chip-Rings" class="category-chip px-5 py-2 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition bg-white hover:bg-emeraldTheme hover:text-goldTheme text-gray-800 border border-gray-300">Rings</button>
+                <button onclick="filterCategory('Earrings')" id="chip-Earrings" class="category-chip px-5 py-2 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition bg-white hover:bg-emeraldTheme hover:text-goldTheme text-gray-800 border border-gray-300">Earrings</button>
+                <button onclick="filterCategory('Necklaces')" id="chip-Necklaces" class="category-chip px-5 py-2 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition bg-white hover:bg-emeraldTheme hover:text-goldTheme text-gray-800 border border-gray-300">Necklaces</button>
+                
+                <button onclick="openAdminModal()" class="ml-auto flex items-center gap-1.5 px-4 py-2 rounded-full text-xs sm:text-sm font-bold bg-goldTheme text-emeraldTheme-dark hover:bg-goldTheme-bright transition shadow">
+                    <i class="fa-solid fa-plus"></i> Add Product
+                </button>
+            </div>
+
+            <!-- Dynamic Product Cards Grid -->
+            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                <!-- Dynamically Populated -->
+            </div>
+        </div>
+
+        <aside id="checkoutSidebar" class="lg:col-span-5 xl:col-span-4 bg-emeraldTheme text-gray-100 rounded-2xl shadow-2xl border border-goldTheme/30 p-5 sticky top-24 space-y-4 max-h-[calc(100vh-100px)] overflow-y-auto">
+            <div class="flex items-center justify-between border-b border-goldTheme/20 pb-3">
+                <h2 class="font-cinzel font-bold text-lg text-goldTheme flex items-center gap-2">
+                    <i class="fa-solid fa-bag-shopping text-goldTheme"></i> Shopping Bag & Checkout
+                </h2>
+                <button onclick="clearCart()" class="text-xs text-gray-400 hover:text-goldTheme transition underline">Clear</button>
+            </div>
+
+            <!-- Cart Items List -->
+            <div id="sidebarCartItems" class="space-y-3 max-h-48 overflow-y-auto pr-1">
+                <!-- Populated dynamically -->
+            </div>
+
+            <!-- Coupon Redemption Box -->
+            <div class="bg-emeraldTheme-dark rounded-xl p-3 border border-goldTheme/30 space-y-2">
+                <label class="block text-xs font-semibold text-goldTheme tracking-wide">Redeem Coupon Code</label>
+                <div class="flex gap-2">
+                    <input type="text" id="couponInput" placeholder="e.g. LUXURY10, ARENA15" class="w-full bg-emeraldTheme border border-goldTheme/40 rounded-lg px-3 py-1.5 text-xs text-white uppercase focus:outline-none focus:border-goldTheme">
+                    <button type="button" onclick="applyCoupon()" class="gold-button text-emeraldTheme-dark font-bold px-3 py-1.5 rounded-lg text-xs whitespace-nowrap shadow">Apply</button>
+                </div>
+                <div id="couponMessage" class="text-[11px] hidden"></div>
+            </div>
+
+            <div class="bg-emeraldTheme-dark/95 rounded-xl p-3.5 border border-goldTheme/40 space-y-2.5">
+                <h3 class="font-cinzel font-bold text-xs text-goldTheme tracking-wider uppercase flex items-center gap-1.5">
+                    <i class="fa-solid fa-truck-fast"></i> Delivery Address & Customer Details
+                </h3>
+                <div class="grid grid-cols-1 gap-2">
+                    <div>
+                        <label class="block text-[11px] font-medium text-gray-300">Full Name *</label>
+                        <input type="text" id="custName" placeholder="e.g. Maharani Ananya Sharma" required class="w-full bg-emeraldTheme border border-goldTheme/30 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-goldTheme">
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-[11px] font-medium text-gray-300">Mobile / WhatsApp *</label>
+                            <input type="tel" id="custPhone" placeholder="9876543210" required class="w-full bg-emeraldTheme border border-goldTheme/30 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-goldTheme">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-medium text-gray-300">Pincode *</label>
+                            <input type="text" id="custPincode" placeholder="110001" required class="w-full bg-emeraldTheme border border-goldTheme/30 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-goldTheme">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-medium text-gray-300">Street Address & Landmark *</label>
+                        <input type="text" id="custAddress" placeholder="Flat No., Building Name, Street" required class="w-full bg-emeraldTheme border border-goldTheme/30 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-goldTheme">
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-[11px] font-medium text-gray-300">City *</label>
+                            <input type="text" id="custCity" placeholder="New Delhi" required class="w-full bg-emeraldTheme border border-goldTheme/30 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-goldTheme">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-medium text-gray-300">State *</label>
+                            <input type="text" id="custState" placeholder="Delhi" required class="w-full bg-emeraldTheme border border-goldTheme/30 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-goldTheme">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-medium text-gray-300">Delivery Instructions (Optional)</label>
+                        <input type="text" id="custNotes" placeholder="e.g. Call before delivery, gift message" class="w-full bg-emeraldTheme border border-goldTheme/30 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-goldTheme">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Price Breakdown Calculator -->
+            <div class="bg-emeraldTheme-dark/90 rounded-xl p-3.5 space-y-2 border border-goldTheme/20 text-xs">
+                <div class="flex justify-between text-gray-300">
+                    <span>Subtotal:</span>
+                    <span id="calcSubtotal">₹0</span>
+                </div>
+                <div id="discountRow" class="flex justify-between text-goldTheme hidden">
+                    <span id="discountLabel">Discount:</span>
+                    <span id="calcDiscount">-₹0</span>
+                </div>
+                <div class="flex items-center justify-between text-gray-300">
+                    <label class="flex items-center gap-1.5 cursor-pointer">
+                        <input type="checkbox" id="giftWrapToggle" onchange="updateCartCalculations()" class="accent-goldTheme w-3.5 h-3.5 rounded" checked>
+                        Royal Gift Box & Wrapping:
+                    </label>
+                    <span id="calcGiftWrap">₹500</span>
+                </div>
+                <div class="flex justify-between text-gray-300">
+                    <span>GST / Govt Tax (3%):</span>
+                    <span id="calcTax">₹0</span>
+                </div>
+                <div class="border-t border-goldTheme/20 pt-2 flex justify-between font-bold text-sm text-goldTheme">
+                    <span>TOTAL TO PAY:</span>
+                    <div class="text-right">
+                        <div id="calcTotalInr" class="text-base">₹0</div>
+                        <div id="calcTotalUsd" class="text-[11px] text-gray-300 font-normal">($0)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Side Payment Security Badge -->
+            <div class="bg-emeraldTheme-light/80 rounded-xl p-2.5 border border-goldTheme/30 text-center space-y-1">
+                <div class="flex items-center justify-center gap-2 text-xs font-semibold text-goldTheme">
+                    <i class="fa-solid fa-shield-halved"></i> 100% Insured Delivery & Direct UPI QR
+                </div>
+            </div>
+
+            <!-- Proceed to Payment Button -->
+            <button onclick="openPaymentQrModal()" class="w-full gold-button text-emeraldTheme-dark font-bold py-3 px-4 rounded-xl shadow-lg hover:shadow-goldTheme/30 text-xs sm:text-sm tracking-wider flex items-center justify-center gap-2 uppercase">
+                <i class="fa-solid fa-qrcode text-base"></i> Proceed to Pay & Generate QR
+            </button>
+        </aside>
+    </main>
+
+    <!-- Rich Interactive Product Detail Modal -->
+    <div id="productDetailModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-emeraldTheme border-2 border-goldTheme/60 rounded-3xl max-w-3xl w-full relative shadow-2xl text-gray-100 overflow-hidden my-auto">
+            <button onclick="closeProductDetailModal()" class="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-emeraldTheme-dark/80 border border-goldTheme/40 text-goldTheme hover:bg-goldTheme hover:text-emeraldTheme-dark transition flex items-center justify-center text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-0">
+                <!-- Large Image Display -->
+                <div class="relative bg-emeraldTheme-dark h-80 md:h-full flex items-center justify-center border-b md:border-b-0 md:border-r border-goldTheme/30 p-4 group">
+                    <img id="detailImage" src="" alt="Jewel Detail" class="w-full h-full object-cover rounded-2xl shadow-lg border border-goldTheme/20">
+                    <span id="detailBadge" class="absolute top-6 left-6 bg-emeraldTheme-dark/90 border border-goldTheme text-goldTheme text-xs font-bold px-3 py-1 rounded-full shadow hidden">
+                        <i class="fa-solid fa-crown text-goldTheme"></i> Bestseller
+                    </span>
+                    <button id="detailWishlistBtn" class="absolute bottom-6 right-6 w-10 h-10 rounded-full bg-emeraldTheme-dark/90 border border-goldTheme text-goldTheme hover:bg-goldTheme hover:text-emeraldTheme-dark transition flex items-center justify-center shadow">
+                        <i class="fa-regular fa-heart text-base"></i>
+                    </button>
+                </div>
+
+                <!-- Product Specifications & Buy Controls -->
+                <div class="p-6 md:p-8 flex flex-col justify-between space-y-5">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span id="detailCategory" class="text-[10px] tracking-widest uppercase font-bold text-goldTheme bg-emeraldTheme-dark px-3 py-1 rounded-full border border-goldTheme/30">
+                                Category
+                            </span>
+                            <div class="flex items-center gap-1 text-amber-400 text-xs">
+                                <span class="text-gray-300 font-semibold mr-1">5.0</span>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                        </div>
+
+                        <h2 id="detailTitle" class="font-cinzel font-black text-xl sm:text-2xl text-goldTheme leading-tight">
+                            Product Title
+                        </h2>
+
+                        <div class="flex items-baseline gap-3">
+                            <span id="detailPriceInr" class="text-2xl font-black text-white">₹0</span>
+                            <span id="detailPriceUsd" class="text-sm text-goldTheme-light font-semibold">($0)</span>
+                            <span class="text-[11px] text-emerald-400 bg-emeraldTheme-dark px-2 py-0.5 rounded border border-emerald-500/30">In Stock & Ready to Ship</span>
+                        </div>
+
+                        <p id="detailDescription" class="text-xs text-gray-300 leading-relaxed pt-1">
+                            Description text...
+                        </p>
+
+                        <!-- Hallmark Guarantee Badges -->
+                        <div class="grid grid-cols-2 gap-2 pt-2 border-t border-goldTheme/20">
+                            <div class="flex items-center gap-2 text-[11px] text-gray-300">
+                                <i class="fa-solid fa-certificate text-goldTheme"></i> 22K Hallmarked Gold
+                            </div>
+                            <div class="flex items-center gap-2 text-[11px] text-gray-300">
+                                <i class="fa-solid fa-gem text-goldTheme"></i> BIS Certified Diamonds
+                            </div>
+                            <div class="flex items-center gap-2 text-[11px] text-gray-300">
+                                <i class="fa-solid fa-box-archive text-goldTheme"></i> Royal Box Included
+                            </div>
+                            <div class="flex items-center gap-2 text-[11px] text-gray-300">
+                                <i class="fa-solid fa-truck-ramp-box text-goldTheme"></i> Insured Worldwide
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quantity & Action Buttons -->
+                    <div class="space-y-3 pt-2">
+                        <div class="flex items-center gap-4">
+                            <label class="text-xs font-bold text-goldTheme uppercase tracking-wider">Quantity:</label>
+                            <div class="flex items-center bg-emeraldTheme-dark rounded-xl border border-goldTheme/40 px-3 py-1">
+                                <button onclick="adjustDetailQty(-1)" class="text-gray-300 hover:text-goldTheme font-bold text-base px-2">-</button>
+                                <span id="detailQuantity" class="text-sm font-bold text-white px-3">1</span>
+                                <button onclick="adjustDetailQty(1)" class="text-gray-300 hover:text-goldTheme font-bold text-base px-2">+</button>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3 pt-1">
+                            <button id="detailAddToCartBtn" class="bg-emeraldTheme-dark border border-goldTheme text-goldTheme hover:bg-goldTheme hover:text-emeraldTheme-dark font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition flex items-center justify-center gap-2 shadow-md">
+                                <i class="fa-solid fa-bag-shopping"></i> Add to Bag
+                            </button>
+                            <button id="detailBuyNowBtn" class="gold-button text-emeraldTheme-dark font-black py-3 rounded-xl text-xs uppercase tracking-wider shadow-lg flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-bolt"></i> Buy Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating WhatsApp Concierge Button -->
+    <a href="https://wa.me/918130844864?text=Hi%20Nihara%20Jwells,%20I%20am%20interested%20in%20your%20luxury%20jewelry%20collection." target="_blank" class="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-3xl hover:scale-110 transition duration-300 group" title="Chat on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span class="absolute right-16 bg-emeraldTheme-dark text-goldTheme text-xs font-bold px-3 py-1.5 rounded-xl shadow-xl border border-goldTheme/40 opacity-0 group-hover:opacity-100 transition whitespace-nowrap pointer-events-none">
+            WhatsApp Luxury Assistance
+        </span>
+    </a>
+
+    <div id="paymentQrModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-emeraldTheme border-2 border-goldTheme/60 rounded-2xl max-w-md w-full p-6 relative shadow-2xl text-center text-gray-100 space-y-4">
+            <button onclick="closePaymentQrModal()" class="absolute top-4 right-4 text-gray-400 hover:text-goldTheme text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="space-y-1">
+                <div class="w-12 h-12 bg-emeraldTheme-dark rounded-full border border-goldTheme flex items-center justify-center mx-auto text-goldTheme text-xl">
+                    <i class="fa-solid fa-qrcode"></i>
+                </div>
+                <h3 class="font-cinzel font-bold text-xl text-goldTheme">Scan & Pay via UPI</h3>
+                <p class="text-xs text-gray-300">Scan with GPay, Paytm, PhonePe or any banking app</p>
+            </div>
+
+            <!-- Dynamic QR Code Container -->
+            <div class="bg-white p-4 rounded-xl shadow-inner border-2 border-goldTheme/40 inline-block mx-auto pulse-gold">
+                <img id="dynamicQrImage" src="" alt="Payment QR Code" class="w-48 h-48 mx-auto rounded">
+            </div>
+
+            <!-- Price & UPI ID Badge -->
+            <div class="bg-emeraldTheme-dark p-3 rounded-xl border border-goldTheme/30 space-y-1">
+                <p class="text-xs text-gray-300">Total Amount Payable:</p>
+                <div id="qrModalAmount" class="text-xl font-black text-goldTheme">₹0</div>
+                <p class="text-[11px] text-gray-400 font-mono">UPI ID: 8130844864@paytm</p>
+                <p id="qrCustomerSummary" class="text-[11px] text-emerald-300 font-semibold"></p>
+            </div>
+
+            <!-- Payment App Logos -->
+            <div class="flex justify-center items-center gap-3 text-xl text-gray-300">
+                <i class="fa-brands fa-google-pay" title="Google Pay"></i>
+                <i class="fa-solid fa-mobile-screen-button" title="PhonePe / Paytm"></i>
+                <i class="fa-brands fa-cc-visa" title="Visa"></i>
+                <i class="fa-brands fa-cc-mastercard" title="Mastercard"></i>
+            </div>
+
+            <!-- Complete Order Button -->
+            <div class="space-y-2 pt-2">
+                <button onclick="processOrderAndDispatchWhatsApp()" class="w-full gold-button text-emeraldTheme-dark font-bold py-3 rounded-xl text-sm shadow-lg flex items-center justify-center gap-2 uppercase tracking-wide">
+                    <i class="fa-brands fa-whatsapp text-lg"></i> I Have Paid - Complete Order
+                </button>
+                <button onclick="closePaymentQrModal()" class="w-full py-2 text-xs text-gray-400 hover:text-goldTheme">
+                    Cancel Payment
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin & Management Modal -->
+    <div id="adminModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-emeraldTheme border border-goldTheme/50 rounded-2xl max-w-xl w-full p-6 relative shadow-2xl text-gray-100 space-y-4">
+            <div class="flex items-center justify-between border-b border-goldTheme/20 pb-3">
+                <h3 id="adminModalTitle" class="font-cinzel font-bold text-xl text-goldTheme">Add / Edit Product</h3>
+                <button onclick="closeAdminModal()" class="text-gray-400 hover:text-goldTheme text-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="productForm" onsubmit="handleProductSubmit(event)" class="space-y-3">
+                <input type="hidden" id="editProductId">
+                <div>
+                    <label class="block text-xs font-semibold text-goldTheme mb-1">Product Name</label>
+                    <input type="text" id="formTitle" required class="w-full bg-emeraldTheme-dark border border-goldTheme/30 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-goldTheme">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-goldTheme mb-1">Category</label>
+                        <select id="formCategory" class="w-full bg-emeraldTheme-dark border border-goldTheme/30 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-goldTheme">
+                            <option value="Bridal Sets">Bridal Sets</option>
+                            <option value="Rings">Rings</option>
+                            <option value="Earrings">Earrings</option>
+                            <option value="Necklaces">Necklaces</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-goldTheme mb-1">Price in INR (₹)</label>
+                        <input type="number" id="formPriceInr" required class="w-full bg-emeraldTheme-dark border border-goldTheme/30 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-goldTheme" placeholder="145000">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-goldTheme mb-1">Price in USD ($)</label>
+                        <input type="number" id="formPriceUsd" required class="w-full bg-emeraldTheme-dark border border-goldTheme/30 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-goldTheme" placeholder="1750">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-goldTheme mb-1">Image URL</label>
+                        <input type="url" id="formImage" required class="w-full bg-emeraldTheme-dark border border-goldTheme/30 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-goldTheme" placeholder="https://...">
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 pt-1">
+                    <input type="checkbox" id="formBestseller" class="accent-goldTheme w-4 h-4 rounded">
+                    <label for="formBestseller" class="text-xs text-gray-300">Mark as Bestseller</label>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-goldTheme mb-1">Description</label>
+                    <textarea id="formDescription" rows="2" class="w-full bg-emeraldTheme-dark border border-goldTheme/30 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-goldTheme"></textarea>
+                </div>
+                <div class="flex justify-end gap-3 pt-2">
+                    <button type="button" onclick="closeAdminModal()" class="px-4 py-2 rounded-lg bg-gray-700 text-gray-200 text-xs font-semibold">Cancel</button>
+                    <button type="submit" class="px-5 py-2 rounded-lg gold-button text-emeraldTheme-dark font-bold text-xs shadow">Save Product</button>
+                </div>
+            </form>
+
+            <div class="border-t border-goldTheme/20 pt-3">
+                <h4 class="font-semibold text-xs text-goldTheme uppercase tracking-wider mb-2">Current Inventory Management</h4>
+                <div id="adminProductList" class="space-y-2 max-h-36 overflow-y-auto pr-1">
+                    <!-- Dynamic List -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Virtual Try-On Modal -->
+    <div id="tryOnModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
+        <div class="bg-emeraldTheme border border-goldTheme rounded-2xl max-w-lg w-full p-6 relative shadow-2xl text-center space-y-4">
+            <button onclick="closeVirtualTryOn()" class="absolute top-4 right-4 text-gray-400 hover:text-goldTheme text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <div class="w-14 h-14 bg-emeraldTheme-dark rounded-full border border-goldTheme flex items-center justify-center mx-auto text-goldTheme text-xl shadow-inner">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </div>
+            <h3 class="font-cinzel font-bold text-xl text-goldTheme">AR Virtual Try-On Studio</h3>
+            <p class="text-xs text-gray-300">Preview selected luxury necklaces and earrings directly on screen.</p>
+            
+            <div class="relative bg-emeraldTheme-dark border-2 border-dashed border-goldTheme/40 rounded-xl h-60 flex flex-col items-center justify-center p-4 overflow-hidden">
+                <video id="tryOnVideo" autoplay playsinline class="absolute inset-0 w-full h-full object-cover hidden"></video>
+                <div id="tryOnPlaceholder" class="space-y-2 z-10">
+                    <i class="fa-solid fa-camera-rotate text-3xl text-goldTheme animate-pulse"></i>
+                    <p class="text-xs text-gray-300">Click below to initiate webcam video overlay</p>
+                </div>
+                <div id="tryOnOverlayJewel" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 hidden z-20 pointer-events-none">
+                    <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=300&q=80" class="w-32 h-32 object-contain drop-shadow-[0_10px_10px_rgba(212,175,55,0.7)]" alt="Jewel Overlay">
+                </div>
+            </div>
+
+            <div class="flex justify-center gap-3">
+                <button onclick="startCameraTryOn()" class="px-5 py-2 rounded-lg gold-button text-emeraldTheme-dark font-bold text-xs shadow">Enable Camera</button>
+                <button onclick="closeVirtualTryOn()" class="px-4 py-2 rounded-lg bg-gray-700 text-gray-200 text-xs">Close Studio</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wishlist Modal -->
+    <div id="wishlistModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-emeraldTheme border border-goldTheme/50 rounded-2xl max-w-md w-full p-6 relative shadow-2xl text-gray-100 space-y-4">
+            <div class="flex items-center justify-between border-b border-goldTheme/20 pb-3">
+                <h3 class="font-cinzel font-bold text-lg text-goldTheme flex items-center gap-2"><i class="fa-solid fa-heart text-goldTheme"></i> Saved Wishlist</h3>
+                <button onclick="closeWishlistModal()" class="text-gray-400 hover:text-goldTheme text-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="wishlistModalItems" class="space-y-3 max-h-72 overflow-y-auto pr-1"></div>
+        </div>
+    </div>
+
+    <!-- Search Modal -->
+    <div id="searchModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-start justify-center pt-20 p-4">
+        <div class="bg-emeraldTheme border border-goldTheme/50 rounded-2xl max-w-lg w-full p-6 relative shadow-2xl text-gray-100 space-y-4">
+            <div class="flex items-center justify-between border-b border-goldTheme/20 pb-2">
+                <h3 class="font-cinzel font-bold text-base text-goldTheme">Search Jewels</h3>
+                <button onclick="closeSearchModal()" class="text-gray-400 hover:text-goldTheme text-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="relative">
+                <input type="text" id="searchInput" oninput="handleSearchInput(this.value)" placeholder="Search chokers, emerald earrings, rings..." class="w-full bg-emeraldTheme-dark border border-goldTheme/40 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-goldTheme pl-10">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-gray-400 text-xs"></i>
+            </div>
+            <div id="searchResultsList" class="space-y-2 max-h-60 overflow-y-auto pr-1"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-emeraldTheme-dark border-t border-goldTheme/20 text-gray-400 text-xs py-8 px-4 mt-auto">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-goldTheme/10">
+            <div class="space-y-3">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 rounded-full border border-goldTheme flex items-center justify-center bg-emeraldTheme">
+                        <i class="fa-solid fa-gem text-goldTheme text-xs"></i>
+                    </div>
+                    <span class="font-cinzel font-bold text-lg text-goldTheme tracking-widest">NIHARA JWELLS</span>
+                </div>
+                <p class="text-[12px] leading-relaxed">Royal Indian handcrafted hallmarked 22K gold, certified diamonds, and precious gemstone collections.</p>
+            </div>
+            <div>
+                <h4 class="font-cinzel font-bold text-xs text-goldTheme mb-3 uppercase tracking-wider">Collections</h4>
+                <ul class="space-y-2 text-[12px]">
+                    <li><a href="#" onclick="filterCategory('Bridal Sets')" class="hover:text-goldTheme">Bridal Sets</a></li>
+                    <li><a href="#" onclick="filterCategory('Rings')" class="hover:text-goldTheme">Diamond Rings</a></li>
+                    <li><a href="#" onclick="filterCategory('Earrings')" class="hover:text-goldTheme">Emerald & Ruby Earrings</a></li>
+                    <li><a href="#" onclick="filterCategory('Necklaces')" class="hover:text-goldTheme">Royal Kundan Chokers</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-cinzel font-bold text-xs text-goldTheme mb-3 uppercase tracking-wider">Concierge & Orders</h4>
+                <ul class="space-y-2 text-[12px]">
+                    <li><a href="https://wa.me/918130844864" target="_blank" class="hover:text-goldTheme text-emerald-400 font-semibold flex items-center gap-1.5"><i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp: +91 81308 44864</a></li>
+                    <li><a href="#" class="hover:text-goldTheme">BIS Hallmarked Guarantee</a></li>
+                    <li><a href="#" class="hover:text-goldTheme">Insured Global Transit</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-cinzel font-bold text-xs text-goldTheme mb-3 uppercase tracking-wider">Technology Partner</h4>
+                <div class="bg-emeraldTheme p-3.5 rounded-xl border border-goldTheme/30 space-y-1">
+                    <p class="text-[11px] text-gray-300">Designed & Engineered by</p>
+                    <p class="font-cinzel font-bold text-goldTheme text-sm tracking-widest">Arena ITsoft</p>
+                    <p class="text-[10px] text-gray-400">Enterprise Web Systems</p>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto pt-4 flex flex-col sm:flex-row items-center justify-between text-gray-500 text-[11px]">
+            <p>&copy; 2026 NIHARA JWELLS. Developed by <span class="text-goldTheme font-semibold">Arena ITsoft</span>.</p>
+            <div class="flex space-x-4 mt-2 sm:mt-0">
+                <a href="https://wa.me/918130844864" target="_blank" class="text-goldTheme">WhatsApp Concierge</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const DEFAULT_PRODUCTS = [
+            {
+                id: 1,
+                title: "The Royal Kundan Choker",
+                category: "Bridal Sets",
+                priceInr: 145000,
+                priceUsd: 1750,
+                rating: 5,
+                bestseller: true,
+                image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=600&q=80",
+                description: "Handcrafted 22K gold Kundan choker encrusted with polki diamonds and emerald drop beads."
+            },
+            {
+                id: 2,
+                title: "Imperial Emerald Drop Earrings",
+                category: "Earrings",
+                priceInr: 68000,
+                priceUsd: 820,
+                rating: 5,
+                bestseller: true,
+                image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=600&q=80",
+                description: "Exquisite drop earrings featuring certified Zambian emeralds surrounded by brilliant-cut diamonds."
+            },
+            {
+                id: 3,
+                title: "The Kiara Diamond Band",
+                category: "Rings",
+                priceInr: 42000,
+                priceUsd: 510,
+                rating: 5,
+                bestseller: true,
+                image: "https://images.unsplash.com/photo-1603561591411-07134e71a2a9?auto=format&fit=crop&w=600&q=80",
+                description: "18K yellow gold band with channel-set sparkling diamonds for timeless everyday luxury."
+            },
+            {
+                id: 4,
+                title: "Classic Ruby Jhumkas",
+                category: "Earrings",
+                priceInr: 85000,
+                priceUsd: 1025,
+                rating: 5,
+                bestseller: true,
+                image: "https://images.unsplash.com/photo-1630019852942-f89202989a59?auto=format&fit=crop&w=600&q=80",
+                description: "Traditional temple-gold jhumkas adorned with rich Mozambican rubies and pearl droplets."
+            },
+            {
+                id: 5,
+                title: "Solitaire Diamond Ring",
+                category: "Rings",
+                priceInr: 92000,
+                priceUsd: 1110,
+                rating: 5,
+                bestseller: false,
+                image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=600&q=80",
+                description: "Magnificent solitaire diamond encircled by a sparkling diamond halo."
+            },
+            {
+                id: 6,
+                title: "Traditional Gold Hoop Earrings",
+                category: "Earrings",
+                priceInr: 54000,
+                priceUsd: 650,
+                rating: 5,
+                bestseller: false,
+                image: "https://images.unsplash.com/photo-1630019852942-f89202989a59?auto=format&fit=crop&w=600&q=80",
+                description: "Classic handcrafted 22K gold hoop earrings with intricate hand-carved filigree."
+            },
+            {
+                id: 7,
+                title: "Grand Emerald Bridal Set",
+                category: "Bridal Sets",
+                priceInr: 210000,
+                priceUsd: 2530,
+                rating: 5,
+                bestseller: true,
+                image: "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?auto=format&fit=crop&w=600&q=80",
+                description: "Complete royal bridal set featuring uncut polki diamonds and rich emerald clusters."
+            },
+            {
+                id: 8,
+                title: "Royal Gold Jhumkas",
+                category: "Earrings",
+                priceInr: 76000,
+                priceUsd: 915,
+                rating: 5,
+                bestseller: false,
+                image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=600&q=80",
+                description: "Heavy antique finish gold jhumkas designed for weddings and grand celebrations."
+            }
+        ];
+
+        let products = [];
+        let cart = [];
+        let wishlist = [];
+        let currentFilter = 'All';
+        let appliedCoupon = null;
+        let selectedProductDetail = null;
+        let detailQty = 1;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFromLocalStorage();
+            if (!cart.length) {
+                cart = [
+                    { product: products.find(p => p.id === 2) || products[1], quantity: 1 },
+                    { product: products.find(p => p.id === 3) || products[2], quantity: 1 }
+                ];
+            }
+            renderProducts();
+            renderCartSidebar();
+            renderAdminProductList();
+            updateBadges();
+        });
+
+        function saveToLocalStorage() {
+            localStorage.setItem('nihara_products', JSON.stringify(products));
+            localStorage.setItem('nihara_cart', JSON.stringify(cart));
+            localStorage.setItem('nihara_wishlist', JSON.stringify(wishlist));
+        }
+
+        function loadFromLocalStorage() {
+            const storedP = localStorage.getItem('nihara_products');
+            products = storedP ? JSON.parse(storedP) : [...DEFAULT_PRODUCTS];
+            const storedC = localStorage.getItem('nihara_cart');
+            cart = storedC ? JSON.parse(storedC) : [];
+            const storedW = localStorage.getItem('nihara_wishlist');
+            wishlist = storedW ? JSON.parse(storedW) : [];
+        }
+
+        function resetDataToDefault() {
+            products = [...DEFAULT_PRODUCTS];
+            cart = [];
+            wishlist = [];
+            appliedCoupon = null;
+            saveToLocalStorage();
+            renderProducts();
+            renderCartSidebar();
+            renderAdminProductList();
+            updateBadges();
+            showToast("Demo data reset to default.");
+        }
+
+        function toggleCartDrawer() {
+            const sidebar = document.getElementById('checkoutSidebar');
+            sidebar.scrollIntoView({ behavior: 'smooth' });
+            sidebar.classList.add('ring-4', 'ring-goldTheme');
+            setTimeout(() => {
+                sidebar.classList.remove('ring-4', 'ring-goldTheme');
+            }, 1500);
+            showToast("Shopping Bag & Checkout Form Focused");
+        }
+
+        function renderProducts(filteredList = null) {
+            const grid = document.getElementById('productGrid');
+            const list = filteredList || (currentFilter === 'All' ? products : products.filter(p => p.category === currentFilter));
+            
+            if (list.length === 0) {
+                grid.innerHTML = `<div class="col-span-full py-12 text-center text-gray-500">
+                    <i class="fa-solid fa-gem text-3xl text-goldTheme mb-2"></i>
+                    <p class="text-sm font-semibold">No items match this category.</p>
+                </div>`;
+                return;
+            }
+
+            grid.innerHTML = list.map(p => {
+                const isWishlisted = wishlist.some(w => w.id === p.id);
+                return `
+                    <div class="bg-emeraldTheme rounded-2xl overflow-hidden border border-goldTheme/30 shadow-xl flex flex-col justify-between group transition hover:border-goldTheme">
+                        <div class="relative h-60 overflow-hidden bg-emeraldTheme-dark cursor-pointer" onclick="openProductDetailModal(${p.id})">
+                            <img src="${p.image}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://placehold.co/400x400/0d231a/d4af37?text=Nihara+Jwells'">
+                            ${p.bestseller ? '<span class="absolute top-2.5 left-2.5 bg-emeraldTheme-dark/90 border border-goldTheme/50 text-goldTheme text-[10px] font-bold px-2 py-0.5 rounded shadow"><i class="fa-solid fa-crown text-goldTheme"></i> Bestseller</span>' : ''}
+                            <button onclick="event.stopPropagation(); toggleWishlist(${p.id})" class="absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-emeraldTheme-dark/80 border border-goldTheme/40 flex items-center justify-center text-goldTheme hover:bg-goldTheme hover:text-emeraldTheme-dark transition shadow">
+                                <i class="${isWishlisted ? 'fa-solid' : 'fa-regular'} fa-heart text-xs"></i>
+                            </button>
+                            <div class="absolute inset-0 bg-emeraldTheme-dark/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                                <span class="bg-emeraldTheme-dark/90 text-goldTheme text-xs font-bold px-3 py-1.5 rounded-full border border-goldTheme/50 shadow-xl">
+                                    <i class="fa-solid fa-eye mr-1"></i> View Details
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-4 flex flex-col justify-between flex-grow space-y-3">
+                            <div>
+                                <h3 class="font-cinzel font-bold text-xs sm:text-sm text-goldTheme hover:underline cursor-pointer" onclick="openProductDetailModal(${p.id})">${p.title}</h3>
+                                <p class="text-xs text-gray-200 font-semibold mt-1">₹${p.priceInr.toLocaleString()} / $<span class="text-goldTheme-light">${p.priceUsd.toLocaleString()}</span></p>
+                                <div class="flex items-center gap-1 text-amber-400 text-[10px] mt-1">
+                                    ${'<i class="fa-solid fa-star"></i>'.repeat(p.rating)}
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="addToCart(${p.id})" class="gold-button text-emeraldTheme-dark font-black py-2 px-2 rounded-xl shadow text-[11px] tracking-wider uppercase flex items-center justify-center gap-1">
+                                    <i class="fa-solid fa-bag-shopping"></i> Add Bag
+                                </button>
+                                <button onclick="openProductDetailModal(${p.id})" class="bg-emeraldTheme-dark border border-goldTheme/50 text-goldTheme hover:bg-goldTheme hover:text-emeraldTheme-dark font-bold py-2 px-2 rounded-xl text-[11px] tracking-wider uppercase transition flex items-center justify-center gap-1">
+                                    <i class="fa-solid fa-circle-info"></i> Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openProductDetailModal(id) {
+            const p = products.find(prod => prod.id === id);
+            if (!p) return;
+
+            selectedProductDetail = p;
+            detailQty = 1;
+
+            document.getElementById('detailTitle').innerText = p.title;
+            document.getElementById('detailCategory').innerText = p.category;
+            document.getElementById('detailPriceInr').innerText = `₹${p.priceInr.toLocaleString()}`;
+            document.getElementById('detailPriceUsd').innerText = `($${p.priceUsd.toLocaleString()})`;
+            document.getElementById('detailDescription').innerText = p.description || "Handcrafted by royal artisans using hallmarked 22K gold and certified gemstones.";
+            document.getElementById('detailImage').src = p.image;
+            document.getElementById('detailQuantity').innerText = detailQty;
+
+            const badge = document.getElementById('detailBadge');
+            if (p.bestseller) {
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+
+            // Wishlist heart icon sync
+            const isWishlisted = wishlist.some(w => w.id === p.id);
+            const wishBtn = document.getElementById('detailWishlistBtn');
+            wishBtn.innerHTML = `<i class="${isWishlisted ? 'fa-solid' : 'fa-regular'} fa-heart text-base"></i>`;
+            wishBtn.onclick = () => {
+                toggleWishlist(p.id);
+                const updatedWish = wishlist.some(w => w.id === p.id);
+                wishBtn.innerHTML = `<i class="${updatedWish ? 'fa-solid' : 'fa-regular'} fa-heart text-base"></i>`;
+            };
+
+            // Bind Action buttons
+            document.getElementById('detailAddToCartBtn').onclick = () => {
+                addToCartWithQty(p.id, detailQty);
+                closeProductDetailModal();
+            };
+
+            document.getElementById('detailBuyNowBtn').onclick = () => {
+                addToCartWithQty(p.id, detailQty);
+                closeProductDetailModal();
+                toggleCartDrawer();
+            };
+
+            const modal = document.getElementById('productDetailModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeProductDetailModal() {
+            const modal = document.getElementById('productDetailModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            selectedProductDetail = null;
+        }
+
+        function adjustDetailQty(delta) {
+            detailQty = Math.max(1, detailQty + delta);
+            document.getElementById('detailQuantity').innerText = detailQty;
+        }
+
+        function addToCartWithQty(productId, qty) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            const existing = cart.find(item => item.product.id === productId);
+            if (existing) {
+                existing.quantity += qty;
+            } else {
+                cart.push({ product, quantity: qty });
+            }
+            saveToLocalStorage();
+            renderCartSidebar();
+            updateBadges();
+            showToast(`Added ${qty}x ${product.title} to bag`);
+        }
+
+        function filterCategory(category) {
+            currentFilter = category;
+            document.querySelectorAll('.category-chip').forEach(btn => {
+                if (btn.id === `chip-${category}`) {
+                    btn.className = "category-chip px-5 py-2 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition bg-emeraldTheme text-goldTheme border border-goldTheme shadow-md";
+                } else {
+                    btn.className = "category-chip px-5 py-2 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition bg-white hover:bg-emeraldTheme hover:text-goldTheme text-gray-800 border border-gray-300";
+                }
+            });
+            renderProducts();
+        }
+
+        function filterBestsellers() {
+            renderProducts(products.filter(p => p.bestseller));
+        }
+
+        function addToCart(productId) {
+            addToCartWithQty(productId, 1);
+        }
+
+        function updateCartQuantity(productId, delta) {
+            const item = cart.find(i => i.product.id === productId);
+            if (!item) return;
+            item.quantity += delta;
+            if (item.quantity <= 0) {
+                cart = cart.filter(i => i.product.id !== productId);
+            }
+            saveToLocalStorage();
+            renderCartSidebar();
+            updateBadges();
+        }
+
+        function clearCart() {
+            cart = [];
+            appliedCoupon = null;
+            saveToLocalStorage();
+            renderCartSidebar();
+            updateBadges();
+        }
+
+        function quickApplyCoupon(code) {
+            document.getElementById('couponInput').value = code;
+            applyCoupon();
+        }
+
+        function applyCoupon() {
+            const code = document.getElementById('couponInput').value.trim().toUpperCase();
+            const msgElem = document.getElementById('couponMessage');
+
+            if (!code) {
+                appliedCoupon = null;
+                msgElem.classList.add('hidden');
+                updateCartCalculations();
+                return;
+            }
+
+            if (code === 'LUXURY10') {
+                appliedCoupon = { code: 'LUXURY10', type: 'percent', value: 10 };
+                msgElem.className = 'text-[11px] text-emerald-400 font-semibold';
+                msgElem.innerText = '✨ LUXURY10 Applied (10% Discount)';
+                msgElem.classList.remove('hidden');
+            } else if (code === 'ARENA15') {
+                appliedCoupon = { code: 'ARENA15', type: 'percent', value: 15 };
+                msgElem.className = 'text-[11px] text-emerald-400 font-semibold';
+                msgElem.innerText = '✨ ARENA15 Applied (15% VIP Discount)';
+                msgElem.classList.remove('hidden');
+            } else if (code === 'FESTIVE5000') {
+                appliedCoupon = { code: 'FESTIVE5000', type: 'flat', value: 5000 };
+                msgElem.className = 'text-[11px] text-emerald-400 font-semibold';
+                msgElem.innerText = '✨ FESTIVE5000 Applied (₹5,000 Flat OFF)';
+                msgElem.classList.remove('hidden');
+            } else {
+                appliedCoupon = null;
+                msgElem.className = 'text-[11px] text-red-400 font-semibold';
+                msgElem.innerText = '❌ Invalid Promo Code. Try LUXURY10 or ARENA15';
+                msgElem.classList.remove('hidden');
+            }
+            updateCartCalculations();
+        }
+
+        function renderCartSidebar() {
+            const container = document.getElementById('sidebarCartItems');
+            if (cart.length === 0) {
+                container.innerHTML = `<div class="text-center py-6 text-gray-400 text-xs">Your shopping bag is empty.</div>`;
+                updateCartCalculations();
+                return;
+            }
+
+            container.innerHTML = cart.map(item => `
+                <div class="flex items-center justify-between bg-emeraldTheme-dark p-2 rounded-xl border border-goldTheme/20">
+                    <div class="flex items-center space-x-2.5">
+                        <img src="${item.product.image}" class="w-10 h-10 rounded-lg object-cover border border-goldTheme/30" onerror="this.src='https://placehold.co/100x100/0d231a/d4af37'">
+                        <div>
+                            <h4 class="font-cinzel font-bold text-xs text-goldTheme line-clamp-1">${item.product.title}</h4>
+                            <p class="text-[11px] text-gray-300">${item.quantity}x - ₹${(item.product.priceInr * item.quantity).toLocaleString()}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-1 bg-emeraldTheme px-2 py-0.5 rounded-lg border border-goldTheme/30">
+                        <button onclick="updateCartQuantity(${item.product.id}, -1)" class="text-gray-300 hover:text-goldTheme text-xs px-1">-</button>
+                        <span class="text-xs font-bold text-goldTheme">${item.quantity}</span>
+                        <button onclick="updateCartQuantity(${item.product.id}, 1)" class="text-gray-300 hover:text-goldTheme text-xs px-1">+</button>
+                    </div>
+                </div>
+            `).join('');
+
+            updateCartCalculations();
+        }
+
+        function updateCartCalculations() {
+            const subtotalInr = cart.reduce((sum, item) => sum + (item.product.priceInr * item.quantity), 0);
+            const subtotalUsd = cart.reduce((sum, item) => sum + (item.product.priceUsd * item.quantity), 0);
+
+            const isGiftWrap = document.getElementById('giftWrapToggle')?.checked || false;
+            const giftWrapCost = isGiftWrap ? 500 : 0;
+            const giftWrapUsd = isGiftWrap ? 6 : 0;
+
+            let discountInr = 0;
+            let discountUsd = 0;
+
+            if (appliedCoupon && subtotalInr > 0) {
+                if (appliedCoupon.type === 'percent') {
+                    discountInr = Math.round(subtotalInr * (appliedCoupon.value / 100));
+                    discountUsd = Math.round(subtotalUsd * (appliedCoupon.value / 100));
+                    document.getElementById('discountLabel').innerText = `Discount (${appliedCoupon.code} - ${appliedCoupon.value}%):`;
+                } else if (appliedCoupon.type === 'flat') {
+                    discountInr = Math.min(subtotalInr, appliedCoupon.value);
+                    discountUsd = Math.min(subtotalUsd, Math.round(appliedCoupon.value / 83));
+                    document.getElementById('discountLabel').innerText = `Discount (${appliedCoupon.code}):`;
+                }
+                document.getElementById('calcDiscount').innerText = `-₹${discountInr.toLocaleString()}`;
+                document.getElementById('discountRow').classList.remove('hidden');
+            } else {
+                document.getElementById('discountRow').classList.add('hidden');
+            }
+
+            const taxableInr = Math.max(0, subtotalInr - discountInr);
+            const taxInr = Math.round(taxableInr * 0.03);
+            const totalInr = taxableInr + giftWrapCost + taxInr;
+
+            const taxableUsd = Math.max(0, subtotalUsd - discountUsd);
+            const taxUsd = Math.round(taxableUsd * 0.03);
+            const totalUsd = taxableUsd + giftWrapUsd + taxUsd;
+
+            document.getElementById('calcSubtotal').innerText = `₹${subtotalInr.toLocaleString()}`;
+            document.getElementById('calcGiftWrap').innerText = `₹${giftWrapCost.toLocaleString()}`;
+            document.getElementById('calcTax').innerText = `₹${taxInr.toLocaleString()}`;
+            document.getElementById('calcTotalInr').innerText = `₹${totalInr.toLocaleString()}`;
+            document.getElementById('calcTotalUsd').innerText = `($${totalUsd.toLocaleString()})`;
+
+            return { subtotalInr, discountInr, giftWrapCost, taxInr, totalInr, totalUsd };
+        }
+
+        function updateBadges() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const cartBadge = document.getElementById('cartBadge');
+            cartBadge.innerText = count;
+
+            const wishlistBadge = document.getElementById('wishlistBadge');
+            wishlistBadge.innerText = wishlist.length;
+            wishlistBadge.classList.toggle('hidden', wishlist.length === 0);
+        }
+
+        function openPaymentQrModal() {
+            if (cart.length === 0) {
+                showToast("Your shopping bag is empty!");
+                return;
+            }
+
+            const name = document.getElementById('custName').value.trim();
+            const phone = document.getElementById('custPhone').value.trim();
+            const address = document.getElementById('custAddress').value.trim();
+            const city = document.getElementById('custCity').value.trim();
+            const state = document.getElementById('custState').value.trim();
+            const pincode = document.getElementById('custPincode').value.trim();
+
+            if (!name || !phone || !address || !city || !state || !pincode) {
+                showToast("Please fill all required delivery address fields (*)!");
+                document.getElementById('custName').focus();
+                return;
+            }
+
+            const calc = updateCartCalculations();
+            const qrAmount = calc.totalInr;
+
+            const upiUrl = `upi://pay?pa=8130844864@paytm&pn=Nihara%20Jwells&am=${qrAmount}&cu=INR&tn=Luxury%20Jewellery%20Order`;
+            const qrImageSrc = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl)}`;
+
+            document.getElementById('dynamicQrImage').src = qrImageSrc;
+            document.getElementById('qrModalAmount').innerText = `₹${qrAmount.toLocaleString()}`;
+            document.getElementById('qrCustomerSummary').innerText = `Deliver to: ${name} (${city}, ${pincode})`;
+
+            const modal = document.getElementById('paymentQrModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closePaymentQrModal() {
+            const modal = document.getElementById('paymentQrModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function processOrderAndDispatchWhatsApp() {
+            if (cart.length === 0) {
+                showToast("Your cart is empty!");
+                return;
+            }
+
+            const name = document.getElementById('custName').value.trim();
+            const phone = document.getElementById('custPhone').value.trim();
+            const address = document.getElementById('custAddress').value.trim();
+            const city = document.getElementById('custCity').value.trim();
+            const state = document.getElementById('custState').value.trim();
+            const pincode = document.getElementById('custPincode').value.trim();
+            const notes = document.getElementById('custNotes').value.trim();
+
+            if (!name || !phone || !address || !city || !state || !pincode) {
+                showToast("Please fill all required customer delivery details!");
+                closePaymentQrModal();
+                return;
+            }
+
+            const calc = updateCartCalculations();
+            const orderId = 'NJ-' + Math.floor(100000 + Math.random() * 900000);
+            const dateStr = new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
+            const itemsListText = cart.map(i => `• ${i.product.title} (Qty: ${i.quantity}) - ₹${(i.product.priceInr * i.quantity).toLocaleString()}`).join('\n');
+
+            const text = `*✨ NEW LUXURY ORDER CONFIRMATION - NIHARA JWELLS ✨*\n\n` +
+                         `*Order ID:* ${orderId}\n` +
+                         `*Date & Time:* ${dateStr}\n` +
+                         `*Payment Status:* PAID via UPI Scan & Pay\n\n` +
+                         `*👑 CUSTOMER DELIVERY DETAILS:*\n` +
+                         `• *Name:* ${name}\n` +
+                         `• *Phone/WhatsApp:* ${phone}\n` +
+                         `• *Street Address:* ${address}\n` +
+                         `• *City/State/Pincode:* ${city}, ${state} - ${pincode}\n` +
+                         (notes ? `• *Delivery Notes:* ${notes}\n\n` : `\n`) +
+                         `*💎 JEWELLERY ITEMS PURCHASED:*\n${itemsListText}\n\n` +
+                         `*💰 FINANCIAL SUMMARY:*\n` +
+                         `• *Subtotal:* ₹${calc.subtotalInr.toLocaleString()}\n` +
+                         `• *Coupon Code:* ${appliedCoupon ? appliedCoupon.code : 'None'}\n` +
+                         `• *Discount:* -₹${calc.discountInr.toLocaleString()}\n` +
+                         `• *GST Tax (3%):* ₹${calc.taxInr.toLocaleString()}\n` +
+                         `• *Gift Wrapping:* ₹${calc.giftWrapCost}\n` +
+                         `• *TOTAL PAID:* ₹${calc.totalInr.toLocaleString()}\n\n` +
+                         `Please dispatch my insured order package to the delivery address above. Thank you!`;
+
+            const waUrl = `https://wa.me/918130844864?text=${encodeURIComponent(text)}`;
+            
+            // Close Payment Modal & Clear Cart
+            closePaymentQrModal();
+            clearCart();
+
+            showToast("Opening WhatsApp with complete Customer & Order details...");
+
+            // Open WhatsApp directly without extra clicks
+            window.open(waUrl, '_blank');
+        }
+
+        function openAdminModal(editId = null) {
+            const modal = document.getElementById('adminModal');
+            const titleElem = document.getElementById('adminModalTitle');
+            const form = document.getElementById('productForm');
+
+            if (editId) {
+                titleElem.innerText = "Edit Luxury Product";
+                const p = products.find(prod => prod.id === editId);
+                if (p) {
+                    document.getElementById('editProductId').value = p.id;
+                    document.getElementById('formTitle').value = p.title;
+                    document.getElementById('formCategory').value = p.category;
+                    document.getElementById('formPriceInr').value = p.priceInr;
+                    document.getElementById('formPriceUsd').value = p.priceUsd;
+                    document.getElementById('formImage').value = p.image;
+                    document.getElementById('formBestseller').checked = p.bestseller;
+                    document.getElementById('formDescription').value = p.description;
+                }
+            } else {
+                titleElem.innerText = "Add New Luxury Product";
+                form.reset();
+                document.getElementById('editProductId').value = "";
+            }
+
+            renderAdminProductList();
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeAdminModal() {
+            const modal = document.getElementById('adminModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function handleProductSubmit(e) {
+            e.preventDefault();
+            const editId = document.getElementById('editProductId').value;
+            const title = document.getElementById('formTitle').value;
+            const category = document.getElementById('formCategory').value;
+            const priceInr = Number(document.getElementById('formPriceInr').value);
+            const priceUsd = Number(document.getElementById('formPriceUsd').value);
+            const image = document.getElementById('formImage').value;
+            const bestseller = document.getElementById('formBestseller').checked;
+            const description = document.getElementById('formDescription').value;
+
+            if (editId) {
+                const p = products.find(prod => prod.id == editId);
+                if (p) {
+                    p.title = title;
+                    p.category = category;
+                    p.priceInr = priceInr;
+                    p.priceUsd = priceUsd;
+                    p.image = image;
+                    p.bestseller = bestseller;
+                    p.description = description;
+                    showToast("Product updated!");
+                }
+            } else {
+                const newP = {
+                    id: Date.now(),
+                    title,
+                    category,
+                    priceInr,
+                    priceUsd,
+                    rating: 5,
+                    bestseller,
+                    image,
+                    description
+                };
+                products.unshift(newP);
+                showToast("New product added to inventory!");
+            }
+
+            saveToLocalStorage();
+            renderProducts();
+            renderAdminProductList();
+            closeAdminModal();
+        }
+
+        function deleteProduct(id) {
+            if (confirm("Delete this luxury product permanently?")) {
+                products = products.filter(p => p.id !== id);
+                saveToLocalStorage();
+                renderProducts();
+                renderAdminProductList();
+                showToast("Product deleted.");
+            }
+        }
+
+        function renderAdminProductList() {
+            const container = document.getElementById('adminProductList');
+            container.innerHTML = products.map(p => `
+                <div class="flex items-center justify-between bg-emeraldTheme-dark p-2 rounded-lg border border-goldTheme/20 text-xs">
+                    <div class="flex items-center space-x-2">
+                        <img src="${p.image}" class="w-7 h-7 rounded object-cover" onerror="this.src='https://placehold.co/100x100/0d231a/d4af37'">
+                        <span class="text-gray-200 line-clamp-1">${p.title}</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <button type="button" onclick="openAdminModal(${p.id})" class="text-goldTheme hover:underline text-[11px]">Edit</button>
+                        <button type="button" onclick="deleteProduct(${p.id})" class="text-red-400 hover:underline text-[11px]">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        let cameraStream = null;
+        function openVirtualTryOn() {
+            const modal = document.getElementById('tryOnModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function startCameraTryOn() {
+            const video = document.getElementById('tryOnVideo');
+            const placeholder = document.getElementById('tryOnPlaceholder');
+            const overlay = document.getElementById('tryOnOverlayJewel');
+
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    cameraStream = stream;
+                    video.srcObject = stream;
+                    video.classList.remove('hidden');
+                    placeholder.classList.add('hidden');
+                    overlay.classList.remove('hidden');
+                    showToast("Live webcam feed connected.");
+                })
+                .catch(err => {
+                    placeholder.innerHTML = `
+                        <i class="fa-solid fa-gem text-3xl text-goldTheme"></i>
+                        <p class="text-xs text-goldTheme font-semibold">Virtual AI Overlay Simulation Active</p>
+                    `;
+                    video.classList.add('hidden');
+                    overlay.classList.remove('hidden');
+                });
+        }
+
+        function closeVirtualTryOn() {
+            if (cameraStream) {
+                cameraStream.getTracks().forEach(t => t.stop());
+                cameraStream = null;
+            }
+            const modal = document.getElementById('tryOnModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function toggleWishlist(id) {
+            const index = wishlist.findIndex(w => w.id === id);
+            if (index > -1) {
+                wishlist.splice(index, 1);
+                showToast("Removed from Wishlist");
+            } else {
+                const p = products.find(prod => prod.id === id);
+                if (p) wishlist.push(p);
+                showToast("Saved to Wishlist");
+            }
+            saveToLocalStorage();
+            renderProducts();
+            updateBadges();
+        }
+
+        function openWishlistModal() {
+            const modal = document.getElementById('wishlistModal');
+            const container = document.getElementById('wishlistModalItems');
+            if (wishlist.length === 0) {
+                container.innerHTML = `<p class="text-xs text-gray-400 text-center py-6">Your wishlist is empty.</p>`;
+            } else {
+                container.innerHTML = wishlist.map(p => `
+                    <div class="flex items-center justify-between bg-emeraldTheme-dark p-2.5 rounded-xl border border-goldTheme/30">
+                        <div class="flex items-center space-x-3">
+                            <img src="${p.image}" class="w-10 h-10 rounded-lg object-cover" onerror="this.src='https://placehold.co/100x100/0d231a/d4af37'">
+                            <div>
+                                <h4 class="font-cinzel font-bold text-xs text-goldTheme">${p.title}</h4>
+                                <p class="text-[11px] text-gray-300">₹${p.priceInr.toLocaleString()}</p>
+                            </div>
+                        </div>
+                        <button onclick="addToCart(${p.id}); closeWishlistModal();" class="gold-button text-emeraldTheme-dark font-bold px-3 py-1 rounded-lg text-xs">Add to Bag</button>
+                    </div>
+                `).join('');
+            }
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeWishlistModal() {
+            const modal = document.getElementById('wishlistModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function openSearchModal() {
+            const modal = document.getElementById('searchModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.getElementById('searchInput').focus();
+        }
+
+        function closeSearchModal() {
+            const modal = document.getElementById('searchModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function handleSearchInput(query) {
+            const container = document.getElementById('searchResultsList');
+            if (!query.trim()) {
+                container.innerHTML = "";
+                return;
+            }
+            const q = query.toLowerCase();
+            const matched = products.filter(p => p.title.toLowerCase().includes(q) || p.category.toLowerCase().includes(q));
+
+            if (matched.length === 0) {
+                container.innerHTML = `<p class="text-xs text-gray-400 text-center py-4">No pieces found matching "${query}"</p>`;
+                return;
+            }
+
+            container.innerHTML = matched.map(p => `
+                <div onclick="openProductDetailModal(${p.id}); closeSearchModal();" class="flex items-center justify-between bg-emeraldTheme-dark p-2 rounded-xl border border-goldTheme/30 cursor-pointer hover:border-goldTheme">
+                    <div class="flex items-center space-x-2.5">
+                        <img src="${p.image}" class="w-9 h-9 rounded-lg object-cover" onerror="this.src='https://placehold.co/100x100/0d231a/d4af37'">
+                        <div>
+                            <h4 class="font-cinzel font-bold text-xs text-goldTheme">${p.title}</h4>
+                            <p class="text-[10px] text-gray-300">₹${p.priceInr.toLocaleString()} &bull; ${p.category}</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-xs text-goldTheme"></i>
+                </div>
+            `).join('');
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        function showToast(msg) {
+            const existing = document.getElementById('toastNotification');
+            if (existing) existing.remove();
+
+            const toast = document.createElement('div');
+            toast.id = 'toastNotification';
+            toast.className = 'fixed bottom-24 right-6 z-50 bg-emeraldTheme border border-goldTheme text-goldTheme px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2 text-xs font-semibold animate-bounce';
+            toast.innerHTML = `<i class="fa-solid fa-gem text-goldTheme"></i> <span>${msg}</span>`;
+            document.body.appendChild(toast);
+
+            setTimeout(() => toast.remove(), 2500);
+        }
+    </script>
+</body>
+</html>
