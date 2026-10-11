@@ -103,10 +103,7 @@
                 <button onclick="filterBestsellers()" class="text-gray-200 hover:text-goldTheme transition">Bestsellers</button>
                 <button onclick="filterCategory('Bridal Sets')" class="text-gray-200 hover:text-goldTheme transition">Traditional</button>
                 <button onclick="filterCategory('Rings')" class="text-gray-200 hover:text-goldTheme transition">Modern</button>
-                <button onclick="openVirtualTryOn()" class="text-goldTheme bg-emeraldTheme-dark/80 px-3.5 py-1.5 rounded-full border border-goldTheme/40 hover:bg-goldTheme hover:text-emeraldTheme-dark transition flex items-center gap-1.5 shadow-sm">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i> Virtual Try-On
-                </button>
-            </nav>
+             </nav>
 
             <!-- Header Action Icons -->
             <div class="flex items-center space-x-4 sm:space-x-5">
@@ -143,11 +140,8 @@
             <button onclick="filterBestsellers(); toggleMobileMenu();" class="block w-full text-left py-1 text-gray-200 text-sm">Bestsellers</button>
             <button onclick="filterCategory('Bridal Sets'); toggleMobileMenu();" class="block w-full text-left py-1 text-gray-200 text-sm">Bridal Sets</button>
             <button onclick="filterCategory('Rings'); toggleMobileMenu();" class="block w-full text-left py-1 text-gray-200 text-sm">Diamond Rings</button>
-            <button onclick="openVirtualTryOn(); toggleMobileMenu();" class="block w-full text-left py-1 text-goldTheme font-semibold text-sm flex items-center gap-2">
-                <i class="fa-solid fa-wand-magic-sparkles"></i> Virtual Try-On Studio
-            </button>
             <button onclick="openAdminModal(); toggleMobileMenu();" class="block w-full text-left py-1 text-goldTheme font-bold text-sm">
-                <i class="fa-solid fa-plus-circle mr-1"></i> Admin / Add Product
+                <i class="fa-solid fa-plus-circle mr-1"></i> Add Product
             </button>
         </div>
     </header>
@@ -495,35 +489,8 @@
         </div>
     </div>
 
-    <!-- Virtual Try-On Modal -->
-    <div id="tryOnModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
-        <div class="bg-emeraldTheme border border-goldTheme rounded-2xl max-w-lg w-full p-6 relative shadow-2xl text-center space-y-4">
-            <button onclick="closeVirtualTryOn()" class="absolute top-4 right-4 text-gray-400 hover:text-goldTheme text-xl"><i class="fa-solid fa-xmark"></i></button>
-            <div class="w-14 h-14 bg-emeraldTheme-dark rounded-full border border-goldTheme flex items-center justify-center mx-auto text-goldTheme text-xl shadow-inner">
-                <i class="fa-solid fa-wand-magic-sparkles"></i>
-            </div>
-            <h3 class="font-cinzel font-bold text-xl text-goldTheme">AR Virtual Try-On Studio</h3>
-            <p class="text-xs text-gray-300">Preview selected luxury necklaces and earrings directly on screen.</p>
-            
-            <div class="relative bg-emeraldTheme-dark border-2 border-dashed border-goldTheme/40 rounded-xl h-60 flex flex-col items-center justify-center p-4 overflow-hidden">
-                <video id="tryOnVideo" autoplay playsinline class="absolute inset-0 w-full h-full object-cover hidden"></video>
-                <div id="tryOnPlaceholder" class="space-y-2 z-10">
-                    <i class="fa-solid fa-camera-rotate text-3xl text-goldTheme animate-pulse"></i>
-                    <p class="text-xs text-gray-300">Click below to initiate webcam video overlay</p>
-                </div>
-                <div id="tryOnOverlayJewel" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 hidden z-20 pointer-events-none">
-                    <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=300&q=80" class="w-32 h-32 object-contain drop-shadow-[0_10px_10px_rgba(212,175,55,0.7)]" alt="Jewel Overlay">
-                </div>
-            </div>
 
-            <div class="flex justify-center gap-3">
-                <button onclick="startCameraTryOn()" class="px-5 py-2 rounded-lg gold-button text-emeraldTheme-dark font-bold text-xs shadow">Enable Camera</button>
-                <button onclick="closeVirtualTryOn()" class="px-4 py-2 rounded-lg bg-gray-700 text-gray-200 text-xs">Close Studio</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Wishlist Modal -->
+   <!-- Wishlist Modal -->
     <div id="wishlistModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
         <div class="bg-emeraldTheme border border-goldTheme/50 rounded-2xl max-w-md w-full p-6 relative shadow-2xl text-gray-100 space-y-4">
             <div class="flex items-center justify-between border-b border-goldTheme/20 pb-3">
@@ -1238,46 +1205,6 @@
             `).join('');
         }
 
-        let cameraStream = null;
-        function openVirtualTryOn() {
-            const modal = document.getElementById('tryOnModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-
-        function startCameraTryOn() {
-            const video = document.getElementById('tryOnVideo');
-            const placeholder = document.getElementById('tryOnPlaceholder');
-            const overlay = document.getElementById('tryOnOverlayJewel');
-
-            navigator.mediaDevices.getUserMedia({ video: true })
-                .then(stream => {
-                    cameraStream = stream;
-                    video.srcObject = stream;
-                    video.classList.remove('hidden');
-                    placeholder.classList.add('hidden');
-                    overlay.classList.remove('hidden');
-                    showToast("Live webcam feed connected.");
-                })
-                .catch(err => {
-                    placeholder.innerHTML = `
-                        <i class="fa-solid fa-gem text-3xl text-goldTheme"></i>
-                        <p class="text-xs text-goldTheme font-semibold">Virtual AI Overlay Simulation Active</p>
-                    `;
-                    video.classList.add('hidden');
-                    overlay.classList.remove('hidden');
-                });
-        }
-
-        function closeVirtualTryOn() {
-            if (cameraStream) {
-                cameraStream.getTracks().forEach(t => t.stop());
-                cameraStream = null;
-            }
-            const modal = document.getElementById('tryOnModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
 
         function toggleWishlist(id) {
             const index = wishlist.findIndex(w => w.id === id);
