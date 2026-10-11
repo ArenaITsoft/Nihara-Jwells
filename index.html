@@ -1024,7 +1024,7 @@
             const calc = updateCartCalculations();
             const qrAmount = calc.totalInr;
 
-            const upiUrl = `upi://pay?pa= "arenaitsoft@icici" =Nihara%20Jwells&am=${qrAmount}&cu=INR&tn=Luxury%20Jewellery%20Order`;
+            const upiUrl = `upi://pay?pa=arenaitsoft@icici&pn=Nihara%20Jwells&am=${qrAmount}&cu=INR&tn=Luxury%20Jewellery%20Order`;
             const qrImageSrc = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl)}`;
 
             document.getElementById('dynamicQrImage').src = qrImageSrc;
