@@ -270,7 +270,7 @@
             <!-- Side Payment Security Badge -->
             <div class="bg-emeraldTheme-light/80 rounded-xl p-2.5 border border-goldTheme/30 text-center space-y-1">
                 <div class="flex items-center justify-center gap-2 text-xs font-semibold text-goldTheme">
-                    <i class="fa-solid fa-shield-halved"></i> 100% Insured Delivery & Direct UPI QR
+                    <i class="fa-solid fa-shield-halved"></i> 100% Insured Delivery & Direct  QR
                 </div>
             </div>
 
@@ -404,7 +404,7 @@
             <div class="bg-emeraldTheme-dark p-3 rounded-xl border border-goldTheme/30 space-y-1">
                 <p class="text-xs text-gray-300">Total Amount Payable:</p>
                 <div id="qrModalAmount" class="text-xl font-black text-goldTheme">₹0</div>
-                <p class="text-[11px] text-gray-400 font-mono">UPI ID: 8130844864@paytm</p>
+                <p class="text-[11px] text-gray-400 font-mono">UPI ID: arenaitsoft@icici</p>
                 <p id="qrCustomerSummary" class="text-[11px] text-emerald-300 font-semibold"></p>
             </div>
 
@@ -1024,7 +1024,7 @@
             const calc = updateCartCalculations();
             const qrAmount = calc.totalInr;
 
-            const upiUrl = `upi://pay?pa=8130844864@paytm&pn=Nihara%20Jwells&am=${qrAmount}&cu=INR&tn=Luxury%20Jewellery%20Order`;
+            const upiUrl = `upi://pay?pa= "arenaitsoft@icici" =Nihara%20Jwells&am=${qrAmount}&cu=INR&tn=Luxury%20Jewellery%20Order`;
             const qrImageSrc = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl)}`;
 
             document.getElementById('dynamicQrImage').src = qrImageSrc;
